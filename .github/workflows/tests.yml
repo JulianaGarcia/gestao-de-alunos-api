@@ -33,7 +33,7 @@ jobs:
 
       - name: Instalar dependências
         run: npm ci
-
+     
       - name: Wait for MongoDB
         run: |
           for i in {1..30}; do
@@ -46,6 +46,11 @@ jobs:
           done
           echo "MongoDB failed to start"
           exit 1
+
+      - name: Iniciar API
+        run: |
+          npm start > api.log 2>&1 &
+          echo $! > api.pid    
 
       - name: Executar testes
         run: npm test
